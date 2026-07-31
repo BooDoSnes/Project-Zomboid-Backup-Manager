@@ -24,7 +24,6 @@ Um gerenciador moderno de backups para **Project Zomboid**.
 ## 📦 Download
 
 Baixe a versão mais recente na página de **Releases**.
-
 ---
 
 ## 👨‍💻 Desenvolvedor
