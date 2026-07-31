@@ -66,7 +66,7 @@ class TelaDeAbertura(ctk.CTk):
 
         autor = ctk.CTkLabel(
             painel,
-            text="Desenvolvido para Ylanderson",
+            text="Desenvolvido por BooDoSnes",
             font=("Segoe UI", 10),
             text_color="#5f6774",
         )

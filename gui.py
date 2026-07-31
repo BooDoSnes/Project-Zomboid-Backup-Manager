@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from tkinter import filedialog, messagebox
-
+import shutil
 import customtkinter as ctk
 
 from backup import criar_backup
@@ -217,7 +217,7 @@ class ZomboidBackupApp(ctk.CTk):
 
         ctk.CTkLabel(
             lateral,
-            text="Versão 3.0\nSingle + Multiplayer",
+            text="Versão 4.0\nby BooDoSnes",
             font=("Segoe UI", 9),
             text_color="#697180",
         ).pack(side="bottom", pady=20)
@@ -919,11 +919,7 @@ class ZomboidBackupApp(ctk.CTk):
         janela.configure(fg_color="#111318")
         janela.grab_set()
 
-        ctk.CTkLabel(
-            janela,
-            text="Histórico de atividades",
-            font=("Segoe UI", 24, "bold"),
-        ).pack(anchor="w", padx=25, pady=(22, 4))
+        ctk.CTkLabel(janela, text="Histórico de atividades", font=("Segoe UI", 24, "bold")).pack(anchor="w", padx=25, pady=(22, 4))
 
         caixa = ctk.CTkTextbox(
             janela,
@@ -936,19 +932,30 @@ class ZomboidBackupApp(ctk.CTk):
         caixa.pack(fill="both", expand=True, padx=25, pady=(12, 15))
 
         arquivo = self.pasta_logs / "historico.txt"
-        conteudo = (
-            arquivo.read_text(encoding="utf-8")
-            if arquivo.exists()
-            else "Nenhuma atividade registrada."
-        )
+        conteudo = arquivo.read_text(encoding="utf-8") if arquivo.exists() else "Nenhuma atividade registrada."
         caixa.insert("end", conteudo)
         caixa.configure(state="disabled")
 
-        ctk.CTkButton(
-            janela,
-            text="Fechar",
-            command=janela.destroy,
-        ).pack(fill="x", padx=25, pady=(0, 20))
+        def limpar_historico():
+            if arquivo.exists() and messagebox.askyesno("Limpar histórico","Deseja apagar todo o histórico?",parent=janela):
+                arquivo.write_text("", encoding="utf-8")
+                caixa.configure(state="normal")
+                caixa.delete("1.0","end")
+                caixa.insert("end","Nenhuma atividade registrada.")
+                caixa.configure(state="disabled")
+                messagebox.showinfo("Histórico","Histórico limpo com sucesso.",parent=janela)
+
+        def exportar_historico():
+            destino=filedialog.asksaveasfilename(parent=janela,defaultextension=".txt",filetypes=[("Arquivo de texto","*.txt")],initialfile="historico.txt")
+            if destino:
+                shutil.copy2(arquivo,destino)
+
+        botoes=ctk.CTkFrame(janela,fg_color="transparent")
+        botoes.pack(fill="x",padx=25,pady=(0,20))
+
+        ctk.CTkButton(botoes,text="Exportar",command=exportar_historico).pack(side="left",expand=True,fill="x",padx=(0,5))
+        ctk.CTkButton(botoes,text="Limpar histórico",fg_color="#b94a48",hover_color="#963b39",command=limpar_historico).pack(side="left",expand=True,fill="x",padx=5)
+        ctk.CTkButton(botoes,text="Fechar",command=janela.destroy).pack(side="left",expand=True,fill="x",padx=(5,0))
 
     def abrir_configuracoes(self) -> None:
         janela = ctk.CTkToplevel(self)
