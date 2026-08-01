@@ -217,7 +217,7 @@ class ZomboidBackupApp(ctk.CTk):
 
         ctk.CTkLabel(
             lateral,
-            text="Versão 4.0\nby BooDoSnes",
+            text="Versão 4.1.0\nby BooDoSnes",
             font=("Segoe UI", 9),
             text_color="#697180",
         ).pack(side="bottom", pady=20)
