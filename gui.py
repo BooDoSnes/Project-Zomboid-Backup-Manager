@@ -10,7 +10,7 @@ import customtkinter as ctk
 
 from backup import criar_backup
 from restore import restaurar_backup
-from settings import carregar_configuracoes, salvar_configuracoes
+from settings import PASTA_DADOS, carregar_configuracoes, salvar_configuracoes
 from utils import abrir_jogo, abrir_pasta, formatar_tamanho, registrar_historico
 from worlds import Mundo, detectar_mundos, encontrar_mundo, filtrar_mundos
 
@@ -29,7 +29,7 @@ class ZomboidBackupApp(ctk.CTk):
         self.destino = self.destino_base
         self.backup_selecionado: Path | None = None
 
-        self.pasta_logs = Path(__file__).resolve().parent / "logs"
+        self.pasta_logs = PASTA_DADOS / "logs"
         self.operacao_em_andamento = False
         self.notificacao_atual: ctk.CTkFrame | None = None
 
